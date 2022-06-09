@@ -9,3 +9,22 @@ body {
     color: #FFF;
     background: linear-gradient(180deg, rgba(9, 35, 175, 1) 0%, rgba(0, 0, 0, 1));
 }
+
+button {
+    background-color: #1646a0;
+    padding: 0 45px;
+    color: #FFF;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid;
+    border-color: #FFF;
+    cursor: pointer;
+    font-size: 1.2em;
+    height: 50px;
+    transition: 0.4s;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background: #0923af;
+}
