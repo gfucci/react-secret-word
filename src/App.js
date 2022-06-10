@@ -23,11 +23,26 @@ function App() {
   const [gameStage, setGameStage] = useState(stages[0].name)
   const [words] = useState(wordsList)
 
+  //Começar o jogo
+  const StartGame = () => {
+    setGameStage(stages[1].name) //quando clicar ira para o indice 1 do objeto que é o game
+  }
+
+  //Finalizar o jogo
+  const VerifyLetter = () => {
+    setGameStage(stages[2].name) //quando clicar ira para o indice 1 do objeto que é o game over
+  }
+
+  //Voltando para o inicio
+  const EndGame = () => {
+    setGameStage(stages[0].name) //quando clicar ira para o indice 1 do objeto que é o inicio
+  }
+
   return (
     <div className="App">
-      {gameStage === "start" && <StartScreen />}
-      {gameStage === "game" && <Game />}
-      {gameStage === "end" && <GameOver/>}
+      {gameStage === "start" && <StartScreen StartGame={StartGame} />}
+      {gameStage === "game" && <Game VerifyLetter={VerifyLetter} />}
+      {gameStage === "end" && <GameOver EndGame={EndGame} />}
     </div>
   );
 }

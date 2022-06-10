@@ -1,8 +1,11 @@
 import styles from './Game.module.css'
 
-const Game = () => {
+const Game = ({VerifyLetter}) => {
   return (
-    <div>Game</div>
+    <div>
+      <h1>Game</h1>
+      <button onClick={VerifyLetter}>Finalizar Jogo</button>
+    </div>
   )
 }
 
