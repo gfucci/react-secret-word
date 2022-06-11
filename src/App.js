@@ -23,10 +23,13 @@ function App() {
   const [gameStage, setGameStage] = useState(stages[0].name)
   const [words] = useState(wordsList)
 
-  const [pickedWord, setPickedWord] = useState("")
-  const [pickedCategory, setPickedCategory] = useState("")
-  const [Letters, setLetters] = useState([])
-
+  const [pickedWord, setPickedWord] = useState("") //palavra aleatoria
+  const [pickedCategory, setPickedCategory] = useState("") //categoria aleatoria
+  const [letters, setLetters] = useState([]) //letras da palavra aleatoria
+  const [guesses, setGuesses] = useState(3) //tentativas
+  const [guessedLetters, setGuessedLetters] = useState([]) //palavras certas
+  const [wrongLetters, setWrongLetters] = useState([])//palavras erradas
+  const [score, setScore] = useState(0) //pontuação
 
   //função para pegar categoria e palavra aleatoriamente
    const PickedWordAndCategory = () => {
@@ -59,14 +62,14 @@ function App() {
     //states
     setPickedWord(word)
     setPickedCategory(category)
-    setLetters(Letters)
+    setLetters(wordLetters)
 
     setGameStage(stages[1].name) //quando clicar ira para o indice 1 do objeto que é o game
   }
 
   //Finalizar o jogo
-  const VerifyLetter = () => {
-    setGameStage(stages[2].name) //quando clicar ira para o indice 1 do objeto que é o game over
+  const VerifyLetter = (letter) => {
+    console.log(letter)
   }
 
   //Voltando para o inicio
@@ -77,7 +80,18 @@ function App() {
   return (
     <div className="App">
       {gameStage === "start" && <StartScreen StartGame={StartGame} />}
-      {gameStage === "game" && <Game VerifyLetter={VerifyLetter} />}
+      {gameStage === "game" && 
+      <Game
+        VerifyLetter={VerifyLetter} 
+        pickedWord={pickedWord} 
+        pickedCategory={pickedCategory}
+        letters={letters}
+        guesses={guesses}
+        wrongLetters={wrongLetters}
+        guessedLetters={guessedLetters}
+        score={score}
+      />
+      }
       {gameStage === "end" && <GameOver EndGame={EndGame} />}
      </div>
   );
