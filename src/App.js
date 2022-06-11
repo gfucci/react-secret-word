@@ -11,12 +11,15 @@ import {wordsList} from './data/words'
 import StartScreen from './components/StartScreen';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
+import { useEffect } from 'react';
 
 const stages = [
   {id:1, name:"start"},
   {id:2, name:"game"},
   {id:3, name:"end"},
 ]
+
+const chances = 3
 
 function App() {
 
@@ -26,7 +29,7 @@ function App() {
   const [pickedWord, setPickedWord] = useState("") //palavra aleatoria
   const [pickedCategory, setPickedCategory] = useState("") //categoria aleatoria
   const [letters, setLetters] = useState([]) //letras da palavra aleatoria
-  const [guesses, setGuesses] = useState(3) //tentativas
+  const [guesses, setGuesses] = useState(chances) //tentativas
   const [guessedLetters, setGuessedLetters] = useState([]) //palavras certas
   const [wrongLetters, setWrongLetters] = useState([])//palavras erradas
   const [score, setScore] = useState(0) //pontuação
@@ -90,15 +93,32 @@ function App() {
         ...actualWrongLetters,
         normalizedLetters,
       ])
+
+      setGuesses((actualGuesses) => actualGuesses - 1)
     }
   }
 
-  console.log(guessedLetters)
-  console.log(wrongLetters)
+  //limpar as arrays
+  const clearGame = () => {
+    setWrongLetters([])
+    setGuessedLetters([])
+  }
+
+  useEffect(() => {
+    //game over e reseta o jogo
+    if (guesses <= 0) {
+      clearGame()
+      setGameStage(stages[2].name)
+    }
+  }, [guesses])
 
   //Voltando para o inicio
   const EndGame = () => {
-    setGameStage(stages[0].name) //quando clicar ira para o indice 1 do objeto que é o inicio
+    //reseta o score e as chances
+    setScore(0)
+    setGuesses(chances)
+    //quando clicar ira para o indice 1 do objeto que é o inicio
+    setGameStage(stages[0].name) 
   }
 
   return (

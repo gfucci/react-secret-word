@@ -4,7 +4,7 @@ const GameOver = ({EndGame}) => {
   return (
     <div>
       <h1>Game Over</h1>
-      <button onClick={EndGame}>Jogar Novamente</button>
+      <button onClick={EndGame}>Voltar ao menu</button>
     </div>
   )
 }
