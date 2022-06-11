@@ -2,7 +2,7 @@
 import './App.css';
 
 //Hooks react
-import { useState, useCallback, UseEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 //data
 import {wordsList} from './data/words'
@@ -11,7 +11,6 @@ import {wordsList} from './data/words'
 import StartScreen from './components/StartScreen';
 import Game from './components/Game';
 import GameOver from './components/GameOver';
-import { useEffect } from 'react';
 
 const stages = [
   {id:1, name:"start"},
@@ -35,23 +34,22 @@ function App() {
   const [score, setScore] = useState(0) //pontuação
 
   //função para pegar categoria e palavra aleatoriamente
-   const PickedWordAndCategory = () => {
+   const PickedWordAndCategory = useCallback(() => {
     //pegar a categoria
     const categories = Object.keys(words)
     const category = categories[Math.floor(Math.random() * Object.keys(categories).length)]
 
-    console.log(category)
-
     //pegar a palavra
     const word = words[category][Math.floor(Math.random() * words[category].length)]
 
-    console.log(word)
-
     return {word, category}
-   }
+   }, [words])
 
   //Começar o jogo
-  const StartGame = () => {
+  const StartGame = useCallback(() => {
+    //limpando as letras
+    clearGame()
+
     // pegar a palavra e a categoria
     const {word, category} = PickedWordAndCategory()
 
@@ -59,16 +57,13 @@ function App() {
     let wordLetters = word.split("")
     wordLetters = wordLetters.map((l) => l.toLowerCase())
 
-    console.log(word, category)
-    console.log(wordLetters)
-
     //states
     setPickedWord(word)
     setPickedCategory(category)
     setLetters(wordLetters)
 
     setGameStage(stages[1].name) //quando clicar ira para o indice 1 do objeto que é o game
-  }
+  }, [PickedWordAndCategory])
 
   //Finalizar o jogo
   const VerifyLetter = (letter) => {
@@ -104,6 +99,7 @@ function App() {
     setGuessedLetters([])
   }
 
+  //cheando se as tentativas acabaram
   useEffect(() => {
     //game over e reseta o jogo
     if (guesses <= 0) {
@@ -111,6 +107,21 @@ function App() {
       setGameStage(stages[2].name)
     }
   }, [guesses])
+
+  //checando condição de vitoria
+  useEffect(() => {
+    //ele cria um novo array com as palavras adivinhadas, eliminando as palavras repetidas
+    const uniqueLetters = [...new Set(letters)]
+
+    //condição de vitoria
+    if (uniqueLetters.length === guessedLetters.length) {
+      //add score
+      setScore((actualScore) => actualScore += 100)
+
+      //adivinhar outra palavra
+      StartGame()
+    }
+  }, [guessedLetters, letters, StartGame])
 
   //Voltando para o inicio
   const EndGame = () => {
@@ -136,7 +147,7 @@ function App() {
         score={score}
       />
       }
-      {gameStage === "end" && <GameOver EndGame={EndGame} />}
+      {gameStage === "end" && <GameOver EndGame={EndGame} score={score} />}
      </div>
   );
 }

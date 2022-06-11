@@ -1,9 +1,13 @@
-import styles from './GameOver.module.css'
+import './GameOver.css'
 
-const GameOver = ({EndGame}) => {
+const GameOver = ({EndGame, score}) => {
   return (
     <div>
-      <h1>Game Over</h1>
+      <h1>Fim de Jogo!</h1>
+      <h2>
+        Sua pontuação foi: 
+        <span>{score}</span>
+      </h2>
       <button onClick={EndGame}>Voltar ao menu</button>
     </div>
   )
