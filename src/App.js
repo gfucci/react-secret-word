@@ -18,7 +18,7 @@ const stages = [
   {id:3, name:"end"},
 ]
 
-const chances = 3
+const chances = 5
 
 function App() {
 
