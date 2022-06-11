@@ -69,8 +69,32 @@ function App() {
 
   //Finalizar o jogo
   const VerifyLetter = (letter) => {
-    console.log(letter)
+    const normalizedLetters = letter.toLowerCase()
+
+    //a letra adiciona ja foi utilizada??
+    if (
+      guessedLetters.includes(normalizedLetters) ||
+      wrongLetters.includes(normalizedLetters)
+    ) {
+      return;
+    }
+
+    //adicionando a letra no array de letras adivinhadas e no array de letras erradas
+    if (letters.includes(normalizedLetters)) {
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
+        normalizedLetters,
+      ])
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters,
+        normalizedLetters,
+      ])
+    }
   }
+
+  console.log(guessedLetters)
+  console.log(wrongLetters)
 
   //Voltando para o inicio
   const EndGame = () => {
