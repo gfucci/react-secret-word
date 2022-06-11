@@ -114,7 +114,7 @@ function App() {
     const uniqueLetters = [...new Set(letters)]
 
     //condição de vitoria
-    if (uniqueLetters.length === guessedLetters.length) {
+    if (uniqueLetters.length === guessedLetters.length && gameStage === stages[1].name) {
       //add score
       setScore((actualScore) => actualScore += 100)
 
